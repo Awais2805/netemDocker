@@ -1,0 +1,22 @@
+
+# Large files 
+*.pcap
+*.csv 
+
+
+# Logs 
+*.log
+
+
+# Py
+
+*.venv/
+.venv
+__pycache__/
+*.pyc
+
+IDE/OS
+
+*.DS_Store
+*.idea/
+*.vscode/
