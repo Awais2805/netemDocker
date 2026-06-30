@@ -24,6 +24,9 @@ Attack Families:
 
 Note: The extractor proposed for this project is CICFlowMeter () - but this will change for the final version of the network traffic emulator to Zeek. The reason for this is due to the fact that my current IPS pipeline already supports the feature extraction format of CICFlowMeter - but for the final IPS pipeline the plan is to use Zeek as we can extract features from the application layer and other richer features. Everything else will stay relatively the same. 
 
+# Stage
+
+Setting up simple 2 container docker env. 
 
 ## Status 
 
