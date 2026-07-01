@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rd /var/lib/apt/lists/* \
     && mkdir -p /run/sshd 
 
-RUN useradd -m ps /bin/bash victimuser \
+RUN useradd -m -s /bin/bash victimuser \
     && echo 'victimuser:password123' | chpasswd \
     && sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config \
     && sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config 

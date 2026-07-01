@@ -1,0 +1,52 @@
+services:
+  victim:
+    build: ./victim
+    container_name: victim
+    networks:
+      labnet:
+        ipv4_address: 172.30.0.10
+
+  cap:
+    image : nicolaka/netshoot
+    container_name: cap
+    network_mode: "service:victim"
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - ./capture:/capture
+    command: ["sleep", "infinity"]
+    depends_on: [victim]
+
+  attacker:
+    build: ./attacker
+    container_name: attacker
+    networks:
+      labnet:
+        ipv4_address: 172.30.0.99
+    depends_on: [victim]
+
+
+  ws:
+    build: ./ws
+    container_name: ws
+    networks:
+      labnet:
+        ipv4_address: 172.30.0.20
+    depends_on: [victim]
+
+  ctl: 
+    build: ./ctl
+    container_name: ctl
+    networks:
+      labnet:
+        ipv4_address: 172.30.0.40
+    volumes:
+      - ./capture:/capture
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on: [victim, attacker, ws, cap]
+
+networks:
+  labnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
