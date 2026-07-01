@@ -26,8 +26,8 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 
 # Stage
 
-Setting up simple 2 container docker env. 
-
+1. Setting up simple 2 container docker env. 
+2. Implement full 5 container enviroment to finnalise network topology (note that the full Juice web page image is not required at this stage - an open web port is sufficient)
 ## Status 
 
 - Milestone 1: Init repo 
