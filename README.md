@@ -28,6 +28,12 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 
 1. Setting up simple 2 container docker env. 
 2. Implement full 5 container enviroment to finnalise network topology (note that the full Juice web page image is not required at this stage - an open web port is sufficient)
+3. Capture flow of benign traffic (HTTP browsing - including deadlinks -> 404, and occasional SSH logins attemps that lead to clean disconnects). 
+    - implement benign traffic generator
+    - Run generator script for 30s and capture traffic
+    - Verify traffic by checking victim logs
+
 ## Status 
 
 - Milestone 1: Init repo 
+- Mileston 2: 5 containers built, live and reachable. 
