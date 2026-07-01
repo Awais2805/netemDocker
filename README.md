@@ -45,4 +45,4 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 - Milestone 3: Capture first full traffic run (with attacks)
 **DONE**
 - Milestone 4: Extract relevant features from pcap files. 
-**IN-PROGRESS** 
+**DONE** 
