@@ -45,6 +45,7 @@ services:
         ipv4_address: 172.30.0.40
     volumes:
       - ./capture:/capture
+      - ./ctl/scripts:/scripts
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on: [victim, attacker, ws, cap]
 

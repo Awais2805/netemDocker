@@ -32,8 +32,17 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
     - implement benign traffic generator
     - Run generator script for 30s and capture traffic
     - Verify traffic by checking victim logs
+4. Implement attack traffic generator - currently only bruteforce password attempts, portscan (recon) and DoS (SYN flood)
+5. Implement the main orchestrater of the netem 'ctl'. Main purpose is to schedule attacks in a bed of benign traffic. 
+6. Implement the extractor container and build. Using python cicflowmeter package - not java tool 
 
 ## Status 
 
 - Milestone 1: Init repo 
-- Mileston 2: 5 containers built, live and reachable. 
+**DONE**
+- Milestone 2: 5 containers built, live and reachable. 
+**DONE**
+- Milestone 3: Capture first full traffic run (with attacks)
+**DONE**
+- Milestone 4: Extract relevant features from pcap files. 
+**IN-PROGRESS** 
