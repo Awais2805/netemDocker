@@ -34,7 +34,8 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
     - Verify traffic by checking victim logs
 4. Implement attack traffic generator - currently only bruteforce password attempts, portscan (recon) and DoS (SYN flood)
 5. Implement the main orchestrater of the netem 'ctl'. Main purpose is to schedule attacks in a bed of benign traffic. 
-6. Implement the extractor container and build. Using python cicflowmeter package - not java tool 
+6. Implement the extractor container and build. Using python cicflowmeter package - not java tool
+7. Label captured flows - binary labelling: attack/benign
 
 ## Status 
 
