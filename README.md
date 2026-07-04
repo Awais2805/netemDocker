@@ -36,6 +36,7 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 5. Implement the main orchestrater of the netem 'ctl'. Main purpose is to schedule attacks in a bed of benign traffic. 
 6. Implement the extractor container and build. Using python cicflowmeter package - not java tool
 7. Label captured flows - binary labelling: attack/benign
+8. Scale up scenario - larger benign bed + diversing and pacing attacks. ~45 mins capture
 
 ## Status 
 
@@ -43,7 +44,8 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 **DONE**
 - Milestone 2: 5 containers built, live and reachable. 
 **DONE**
-- Milestone 3: Capture first full traffic run (with attacks)
+- Milestone 3: Capture first full traffic run (with attacks). 
 **DONE**
 - Milestone 4: Extract relevant features from pcap files. 
 **DONE** 
+- Mileston 5: Capture scaled up network scenario and train xgboost on labelled data. 
