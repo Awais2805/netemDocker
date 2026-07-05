@@ -59,4 +59,10 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 - Milestone 5: Capture scaled up network scenario (run A) and train xgboost on labelled data. 
 **DONE** 
 - Milestone 6: Generate a second run to compare the performnace of the original model trained on run A. 
-**IN-PROGRESS**
+**DONE**
+
+## Current Stage:
+- NetemDocker is working as required: generate -> capture -> label -> IPS pipeline 
+- No further changes planned - repo is stalled. 
+
+
