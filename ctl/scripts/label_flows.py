@@ -22,16 +22,30 @@ def parse_ts(s):
 
 def main():
     cap = sys.argv[1] if len(sys.argv) > 1 else "/capture"
-    flows_path = os.path.join(cap, "flows.csv")
     schedule_path = latest(os.path.join(cap, "schedule_*.json"))
-    out_path = os.path.join(cap, "flows_labeled.csv")
 
     with open(schedule_path, "r") as f:
         schedule = json.load(f)
+
+    # Tie flows/labelled filenames to this run's timestamp so every artefact
+    # (pcap / schedule / flows / labelled) shares one <ts> and no run overwrites
+    # another. run_ts is written by run_scenario; fall back to the filename.
+    ts = schedule.get("run_ts")
+    if not ts:
+        base = os.path.basename(schedule_path)
+        ts = base[len("schedule_"):-len(".json")]
+
+    flows_path = os.path.join(cap, f"flows_{ts}.csv")
+    out_path = os.path.join(cap, f"flows_labeled_{ts}.csv")
+
     attacker = schedule["attacker_ip"]
     windows = schedule["attack_windows"]
     print(f"[Label] schedule : {os.path.basename(schedule_path)}")
+    print(f"[Label] flows    : {os.path.basename(flows_path)}")
     print(f"[Label] attacker : {attacker} ({len(windows)} windows)")
+
+    if not os.path.exists(flows_path):
+        sys.exit(f"[Label] ABORT: {flows_path} not found — extract this run's pcap first")
 
     def family_for(ts):
         for w in windows:
